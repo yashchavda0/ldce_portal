@@ -1,6 +1,82 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import endPoints from "../../../NetworkRoutes";
+import axios from "axios";
+import { Navigate } from "react-router-dom";
+import NetworkRoute from "../../../NetworkRoutes";
+import { toast, Toaster } from "react-hot-toast";
 
 export default function ChangePassword() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState({
+    newPassword: "",
+    confirmPassword: "",
+  });
+  const userData = JSON.parse(localStorage.getItem("User_State"));
+  console.log(userData);
+  const getStudentData = async () => {
+    try {
+      const response = await axios.get(
+        `${endPoints.getStudentDetails}/${userData.username}`,
+        {
+          headers: {
+            Authorization: `Bearer ${userData.token}`,
+          },
+        }
+      );
+      console.log(response.data);
+      // Assuming the response.data has the structure as you provided
+      const studentCollegeDetails =
+        response.data.data.studentData.studentCollegeDetails;
+      setEmail(studentCollegeDetails.email);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    getStudentData();
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (password.newPassword === "" || password.confirmPassword === "") {
+      toast.error("Please fill all the fields");
+      return;
+    }
+
+    if (password.newPassword !== password.confirmPassword) {
+      toast.error("Password does not match");
+      return;
+    }
+
+    try {
+      const response = await axios.put(
+        NetworkRoute.changePassword,
+        {
+          username: userData.username,
+          password: password.newPassword,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${userData.token}`,
+          },
+        }
+      );
+      if (response.data) {
+        toast.success("Password changed successfully");
+      }
+    } catch (error) {
+      console.log(error);
+      if (error.code === "ERR_BAD_RESPONSE") {
+        toast.error(error.response.data.message);
+        if (error.response.data.message === "jwt expired") {
+          window.localStorage.clear();
+          return;
+        }
+      } else {
+        toast.error(error.message);
+      }
+    }
+  };
   return (
     <main>
       <div className="flex justify-center">
@@ -14,6 +90,7 @@ export default function ChangePassword() {
                 <form
                   className="mt-4 space-y-4 lg:mt-5 md:space-y-5"
                   action="#"
+                  onSubmit={handleSubmit}
                 >
                   <div>
                     <label
@@ -26,11 +103,15 @@ export default function ChangePassword() {
                       type="email"
                       name="email"
                       id="email"
+                      value={email}
+                      disabled
                       className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      placeholder="name@company.com"
-                      required=""
                     />
                   </div>
+                  {/* <div className="email-container">
+                    <h2>User Email</h2>
+                    {email ? <p>{email}</p> : <p>Loading...</p>}
+                  </div> */}
                   <div>
                     <label
                       for="password"
@@ -43,8 +124,15 @@ export default function ChangePassword() {
                       name="password"
                       id="password"
                       placeholder="••••••••"
+                      value={password.newPassword}
                       className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       required=""
+                      onChange={(e) =>
+                        setPassword({
+                          ...password,
+                          newPassword: e.target.value,
+                        })
+                      }
                     />
                   </div>
                   <div>
@@ -55,15 +143,21 @@ export default function ChangePassword() {
                       Confirm password
                     </label>
                     <input
-                      type="confirm-password"
+                      type="password"
                       name="confirm-password"
                       id="confirm-password"
+                      value={password.confirmPassword}
                       placeholder="••••••••"
                       className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       required=""
+                      onChange={(e) =>
+                        setPassword({
+                          ...password,
+                          confirmPassword: e.target.value,
+                        })
+                      }
                     />
                   </div>
-
                   <button type="submit" className="btn bg-slate-800 w-full">
                     Reset password
                   </button>

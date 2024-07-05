@@ -69,8 +69,8 @@ const CreateNewStudent = [
     .notEmpty()
     .withMessage("verified student section is required"),
   body("contactNumber").notEmpty().withMessage("contact number is required"),
-  body("aadhar").notEmpty().withMessage("aadhar is required"),
-  body("voterId").notEmpty().withMessage("voter Id is required"),
+  body("aadhar").notEmpty().withMessage("Aadhar Number must be filled").isLength(12).withMessage("Aadhar Number must be valid"),
+  body("voterId").notEmpty().withMessage("voter Id is required").isLength(10).withMessage("voter Id must be valid"),
   body("dob").notEmpty().withMessage("date of birth is required"),
   body("bloodGroup").notEmpty().withMessage("blood group is required"),
   body("residentalAddress")
@@ -85,7 +85,9 @@ const CreateNewStudent = [
     .withMessage("residental country is required"),
   body("residentalPincode")
     .notEmpty()
-    .withMessage("residental pincode is required"),
+    .withMessage("residental pincode is required")
+    .isLength(6)
+    .withMessage("residental pincode must be valid"),
   body("permanentAddress1")
     .notEmpty()
     .withMessage("permanent address 1 is required"),
@@ -99,12 +101,22 @@ const CreateNewStudent = [
     .withMessage("permanent country is required"),
   body("permanentPincode")
     .notEmpty()
-    .withMessage("permanent pincode is required"),
+    .withMessage("permanent pincode is required")
+    .isLength(6)
+    .withMessage("permanent pincode must be valid"),
   body("sscyear").notEmpty().withMessage("sscyear is required"),
   body("sscpr").notEmpty().withMessage("ssc pr is required"),
   body("hscyear").notEmpty().withMessage("hsc year is required"),
   body("hscpr").notEmpty().withMessage("hsc pr is required"),
   body("fathername").notEmpty().withMessage("father name is required"),
+  body("fathercontactNumber").notEmpty().withMessage("Father`s contactNumber is required")
+  .isLength(10)
+  .withMessage("Father`s contactNumber must be 10 digits")
+  .custom(async (value, {req}) => {
+    if(value === req.body.contactNumber){
+      return Promise.reject("Please Enter Parents Contact Number")
+    }
+  }),
   body("mothername").notEmpty().withMessage("mother name is required"),
   body("fatheroccupation")
     .notEmpty()
@@ -117,7 +129,7 @@ const CreateNewStudent = [
   body("officeCity").notEmpty().withMessage("office city number is required"),
   body("officeState").notEmpty().withMessage("office state number is required"),
   body("officeCountry").notEmpty().withMessage("office country is required"),
-  body("officePincode").notEmpty().withMessage("office pincode is required"),
+  body("officePincode").notEmpty().withMessage("office pincode is required").isLength(6).withMessage("PinCode must be valid"),
   body("motheroccupation")
     .notEmpty()
     .withMessage("mother occupation is required"),

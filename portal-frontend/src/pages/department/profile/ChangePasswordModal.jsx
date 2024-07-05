@@ -3,7 +3,8 @@ import { Navigate } from "react-router-dom";
 import NetworkRoute from "../../../NetworkRoutes";
 import { toast, Toaster } from "react-hot-toast";
 import axios from "axios";
-export default function Profile() {
+
+export default function ChangePasswordModal() {
   const userData = JSON.parse(localStorage.getItem("User_State"));
   const [password, setPassword] = useState({
     newPassword: "",
@@ -23,10 +24,18 @@ export default function Profile() {
     }
 
     try {
-      const response = await axios.post(NetworkRoute.changeadminpassword, {
-        username: userData.username,
-        password: password.newPassword,
-      });
+      const response = await axios.put(
+        NetworkRoute.changeDepartmentPassword,
+        {
+          username: userData.username,
+          password: password.newPassword,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${userData.token}`,
+          },
+        }
+      );
       if (response.data) {
         toast.success("Password changed successfully");
       }

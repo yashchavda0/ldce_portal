@@ -26,7 +26,6 @@ const StudentQueries = {
   },
 
   modifyAllUpdateAndTime: async function (enrollment) {
-
     const updatevalues = await AllSchemaAccess.StudentCollegeDetails.update(
       {
         AllowUpdate: false,
@@ -38,9 +37,8 @@ const StudentQueries = {
         },
       }
     );
-    console.log(updatevalues)
+    console.log(updatevalues);
     return updatevalues;
-
   },
 
   UploadDocumentEntry: async function (
@@ -134,30 +132,32 @@ const StudentQueries = {
       console.log(user);
 
       if (user) {
-        const updateDetails = await AllSchemaAccess.StudentCollegeDetails.update(
-          {
-            ...studentCollegeObj,
-            AllowUpdate: false,
-            registeredStudent: true,
-          },
-          {
-            where: {
-              username: studentCollegeObj.enrollment,
+        const updateDetails =
+          await AllSchemaAccess.StudentCollegeDetails.update(
+            {
+              ...studentCollegeObj,
+              AllowUpdate: false,
+              registeredStudent: true,
             },
-          }
-        );
+            {
+              where: {
+                username: studentCollegeObj.enrollment,
+              },
+            }
+          );
         console.log("Update Details");
       }
       console.log("First Executed");
 
-      const findExistingPersonalDetails = await AllSchemaAccess.StudentPersonalDetails.findOne({
-        where: {
-          enrollment: studentCollegeObj.enrollment,
-        },
-      });
+      const findExistingPersonalDetails =
+        await AllSchemaAccess.StudentPersonalDetails.findOne({
+          where: {
+            enrollment: studentCollegeObj.enrollment,
+          },
+        });
       console.log("Find Existing", findExistingPersonalDetails);
 
-      console.log(studentPersonalObj)
+      console.log(studentPersonalObj);
       if (findExistingPersonalDetails) {
         const data = await AllSchemaAccess.StudentPersonalDetails.update(
           studentPersonalObj,
@@ -168,9 +168,7 @@ const StudentQueries = {
           }
         );
         return data;
-      }
-
-      else {
+      } else {
         const data = await AllSchemaAccess.StudentPersonalDetails.create(
           studentPersonalObj
         );
@@ -235,7 +233,7 @@ const StudentQueries = {
       });
     return findDepartmentId;
   },
-  updateStudentDetails: async function (username, data) { },
+  updateStudentDetails: async function (username, data) {},
   getAllCertificateRequests: async function (username) {
     const certificateRequests =
       await AllSchemaAccess.CertificateRequest.findAndCountAll({
@@ -315,14 +313,14 @@ const StudentQueries = {
     return documentDetails;
   },
   getAllCertificateRequestOnType: async function (username, req) {
-    console.log(req.params.requestType)
+    console.log(req.params.requestType);
     const connection = await pool.getConnection();
     const data = await connection.query(
       "SELECT * FROM CERTIFICATEREQUESTS INNER JOIN CERTIFICATEDYNAMICS ON CERTIFICATEREQUESTS.CERTIFICATETYPE = CERTIFICATEDYNAMICS.ID WHERE CERTIFICATEREQUESTS.ENROLLMENT=? AND CERTIFICATEREQUESTS.requestSTATUS=?",
       [username, req.params.requestType]
     );
 
-    await connection.destroy()
+    await connection.destroy();
     return data[0];
   },
 };

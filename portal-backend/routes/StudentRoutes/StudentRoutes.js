@@ -3,7 +3,7 @@ const StudentRoutes = express.Router();
 const TokenValidation = require("../../middlewares/TokenValidation");
 const RoleValidation = require("../../middlewares/RoleValidation");
 const { ROLES } = require("../../constants/constants");
-const upload = require('../../helper/multerConfig')
+const upload = require("../../helper/multerConfig");
 /* 
 const { body, validationResult } = require("express-validator");
 const ResponseCodes = require("../../helper/ResponseCodes");
@@ -24,7 +24,8 @@ const {
   GetCertificateOnId,
   UpdateStudentDetails,
   GetAllCertificateTypeOnAdmin,
-  UpdateTimeLineAndUpdate
+  UpdateTimeLineAndUpdate,
+  ChangePassword,
 } = require("../../controllers/StudentControllers");
 
 StudentRoutes.get(
@@ -53,9 +54,8 @@ StudentRoutes.get(
 StudentRoutes.get(
   "/certificate/getAllCertificateTypeOnAdmin",
   TokenValidation,
-GetAllCertificateTypeOnAdmin
+  GetAllCertificateTypeOnAdmin
 );
-
 
 StudentRoutes.get(
   "/certificate/getAllCertificateType/:certiid",
@@ -112,7 +112,7 @@ StudentRoutes.post(
   "/certificate/request",
   TokenValidation,
   RoleValidation([ROLES.STUDENT]),
-  upload.array("files",3),
+  upload.array("files", 3),
   RequestCertificate
 );
 
@@ -130,8 +130,11 @@ StudentRoutes.patch(
   UpdateTimeLineAndUpdate
 );
 
-
-
-
+StudentRoutes.put(
+  "/changePassword",
+  TokenValidation,
+  RoleValidation([ROLES.STUDENT]),
+  ChangePassword
+);
 
 module.exports = StudentRoutes;

@@ -11,9 +11,10 @@ const GetAllPendingRequest = require("./GetAllPendingRequest");
 const GetProfileDetails = require("./GetStudentProfileData");
 const RequestCertificate = require("./RequestCertificate");
 const UpdateStudentDetails = require("./UpdateStudentDetails");
-const GetCertificateOnId = require('./GetCertificateOnId')
-const GetAllCertificateTypeOnAdmin=require('./GetAllCertificateTypeOnAdmin')
-const UpdateTimeLineAndUpdate=require('./UpdateTimeLineAndUpdate')
+const GetCertificateOnId = require("./GetCertificateOnId");
+const GetAllCertificateTypeOnAdmin = require("./GetAllCertificateTypeOnAdmin");
+const UpdateTimeLineAndUpdate = require("./UpdateTimeLineAndUpdate");
+const ChangePassword = require("./ChangePassword");
 module.exports = {
   RegisterStudent,
   UserLogin,
@@ -27,10 +28,11 @@ module.exports = {
   GetCertificateOnRequestType,
   GetCertificateOnId,
   UpdateTimeLineAndUpdate,
-/*   GetAllApprovedRequest,
+  /*   GetAllApprovedRequest,
   GetAllRejectedRequest,    
   GetAllPendingRequest, */
   GetProfileDetails,
   RequestCertificate,
   UpdateStudentDetails,
+  ChangePassword,
 };

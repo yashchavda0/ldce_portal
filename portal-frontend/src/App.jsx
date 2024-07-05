@@ -28,7 +28,7 @@ import DepartmentApproveStudents from "./pages/department/manage_students/Approv
 import DepartmentExportStudentData from "./pages/department/manage_students/ExportStudentData";
 import DepartmentSemProgression from "./pages/department/manage_students/SemProgression";
 import DepartmentProfile from "./pages/department/profile/Profile";
-import DepartmentChangePassword from "./pages/department/profile/ChangePasswordModal";
+import ChangePasswordModal from "./pages/department/profile/ChangePasswordModal";
 
 // Admin dashboard imports
 import AdminManageFaculties from "./pages/admin/manage_faculties/ManageFaculties";
@@ -181,7 +181,7 @@ function App() {
           <Route
             exact
             path="profile/change-password"
-            element={<DepartmentChangePassword />}
+            element={<ChangePasswordModal />}
           />
         </Route>
 

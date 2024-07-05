@@ -20,6 +20,7 @@ const {
   CreateUnlockRequest,
   GetAllLockInRequests,
   RejectLockInRequest,
+  ChangeDepartmentPassword,
 } = require("../../controllers/DepartmentControllers");
 
 DepartmentRoutes.get(
@@ -137,6 +138,13 @@ DepartmentRoutes.patch(
   TokenValidation,
   RoleValidation([ROLES.ADMIN, ROLES.DEPARTMENT]),
   RejectLockInRequest
+);
+
+DepartmentRoutes.put(
+  "/changeDepartmentPassword",
+  TokenValidation,
+  RoleValidation([ROLES.ADMIN, ROLES.DEPARTMENT]),
+  ChangeDepartmentPassword
 );
 
 // Profile Locking and Unlocking Logic (Department Side)

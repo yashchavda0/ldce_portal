@@ -14,6 +14,7 @@ const GetCertificateRequestDocuments = require("./GetCertificateRequestDocuments
 const GetAllStudentVerificationRequests = require("./GetAllStudentVerificationRequests");
 const GetAllLockInRequests = require("./GetAllLockInRequests");
 const RejectLockInRequest = require("./RejectLockInRequest");
+const ChangeDepartmentPassword = require("./ChangeDepartmentPassword");
 
 module.exports = {
   ReadStudentData,
@@ -32,4 +33,5 @@ module.exports = {
   GetAllStudentVerificationRequests,
   GetAllLockInRequests,
   RejectLockInRequest,
+  ChangeDepartmentPassword,
 };

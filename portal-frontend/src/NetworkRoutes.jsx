@@ -66,6 +66,7 @@ export default {
   getcertificaterequestdocuments: `${domain}department/getCertificateRequestDocument/`,
   readstudentdata: `${domain}department/getStudentData/`,
   updatecertificatestatus: `${domain}department/updateCertificateRequestStatus`,
+  changeDepartmentPassword: `${domain}department/changeDepartmentPassword`,
 
   // Student routes
   getStudentCertificateRequestOnType: `${domain}student/certificate`,
@@ -78,4 +79,5 @@ export default {
   getCertificateDocuments: `${domain}student/certificate/getAllCertificateType`,
   DownloadCertificate: `${domain}student/certificate/getDownloadCertificateDetails/`,
   updateAllowUpdate: `${domain}student/updateLockInDurationWithAllowUpdate`,
+  changePassword: `${domain}student/changePassword`,
 };

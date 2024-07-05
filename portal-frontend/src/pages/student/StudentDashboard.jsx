@@ -22,7 +22,7 @@ export default function StudentDashboard() {
   }, []);
 
   return (
-    <div className='flex h-screen overflow-hidden'>
+    <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
       <Sidebar
         sidebarOpen={sidebarOpen}
@@ -31,7 +31,7 @@ export default function StudentDashboard() {
       />
 
       {/* Content area */}
-      <div className='relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden'>
+      <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
         {/*  Site header */}
         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
@@ -39,26 +39,26 @@ export default function StudentDashboard() {
           <Routes>
             <Route
               exact
-              path='certificate-request'
+              path="certificate-request"
               element={<CertificateRequest />}
             />
             <Route
               exact
-              path='certificate/certificate-request'
+              path="certificate/certificate-request"
               element={<CertificateRequest />}
             />
             <Route
               exact
-              path='certificate/certificate-status'
+              path="certificate/certificate-status"
               element={<CertificateStatus />}
             />
-            <Route exact path='profile/profile' element={<Profile />} />
+            <Route exact path="profile/profile" element={<Profile />} />
             <Route
               exact
-              path='profile/change-password'
+              path="profile/change-password"
               element={<ChangePassword />}
             />
-            <Route exact path='profile/update' element={<UpdateRequest />} />
+            <Route exact path="profile/update" element={<UpdateRequest />} />
           </Routes>
         </main>
       </div>

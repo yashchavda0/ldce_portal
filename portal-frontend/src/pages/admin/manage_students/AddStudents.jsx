@@ -35,6 +35,7 @@ export default function AddStudents() {
   }, []);
 
   const handleFileUpload = async (event) => {
+   
     const file = event.target.files[0];
     const reader = new FileReader();
     console.log("File changed");
@@ -84,6 +85,8 @@ export default function AddStudents() {
   };
 
   const handleUpload = async () => {
+    const toastId = toast.loading("pls wait while email is sending")
+    
     const enrollmentNumbers = {};
     const emailSet = new Set();
     for (const key in jsonData) {
@@ -169,6 +172,8 @@ export default function AddStudents() {
       );
       console.log(res);
       if (res.status === 200) {
+        //update succ
+        toast.remove(toastId);
         toast.success("Students Added Successfully");
         setJsonData(null);
         setRawData(null);
@@ -177,13 +182,17 @@ export default function AddStudents() {
     } catch (error) {
       console.log(error);
       if (error.code === "ERR_BAD_RESPONSE") {
-        toast.error(error.response.data.message);
+
+        toast.remove(toastId);
+    toast.error(error.response.data.message);
         if (error.response.data.message === "jwt expired") {
           window.localStorage.clear();
           navigate("/login");
         }
       } else {
-        toast.error(error.message);
+
+        toast.remove(toastId);
+       toast.error(error.message);
       }
     }
   };
